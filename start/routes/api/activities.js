@@ -1,6 +1,13 @@
-var express = require('express');
-var router = express.Router;
+var router = require('express').Router();
+var Promise = require('bluebird');
+var Activity = require('../../models/activity');
 
 router.get('/', function(req, res, next){
-  res.send('inside activities');
-})
+  Activity.findAll()
+  .then(function(activities){
+    res.json(activities);
+  })
+  .catch(next);
+});
+
+module.exports = router;

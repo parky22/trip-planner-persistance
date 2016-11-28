@@ -3,9 +3,9 @@ var router = require('express').Router();
 var Hotel = require('../models/hotel');
 var Restaurant = require('../models/restaurant');
 var Activity = require('../models/activity');
-var hotelsRouter = require('./api/hotels');
-var restaurantsRouter = require('./api/restuarants');
-var activitiesRouter = require('./api/activities');
+var hotelsRouter = require('./api/hotels.js');
+var restaurantsRouter = require('./api/restaurants.js');
+var activitiesRouter = require('./api/activities.js');
 
 
 router.get('/', function(req, res, next) {

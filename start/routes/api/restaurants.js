@@ -1,6 +1,14 @@
-var express = require('express');
-var router = express.Router;
+var router = require('express').Router();
+var Promise = require('bluebird');
+var Restaurant = require('../../models/restaurant');
+
 
 router.get('/', function(req, res, next){
-  res.send('inside restaurants');
-})
+  Restaurant.findAll()
+  .then(function(restaurants){
+    res.json(restaurants);
+  })
+  .catch(next);
+});
+
+module.exports = router;

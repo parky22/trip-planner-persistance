@@ -1,6 +1,13 @@
-var express = require('express');
-var router = express.Router;
+var router = require('express').Router();
+var Promise = require('bluebird');
+var Hotel = require('../../models/hotel');
 
 router.get('/', function(req, res, next){
-  res.send('inside hotels');
-})
+  Hotel.findAll()
+  .then(function(hotels){
+    res.json(hotels);
+  })
+  .catch(next);
+});
+
+module.exports = router;
