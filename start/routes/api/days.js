@@ -6,7 +6,9 @@ module.exports = router;
 
 // GET - List all days
 router.get('/', function(req, res, next){
-    Day.findAll({})
+    Day.findAll({
+        order: 'number ASC'
+    })
     .then(function(days) {
         res.json(days);
     })
@@ -29,7 +31,35 @@ router.post('/', function(req, res, next) {
     .catch(next);
 });
 
-// POST - add attraction
+router.post('/:id/hotel', function(req, res, next){
+    Day.find({
+       where: {
+           id: req.params.id
+       }
+    })
+    .then(function(foundDay){
+        foundDay.update({
+            hotelId: req.body.hotel
+        });
+    })
+    .catch(next);
+})
+
+// PUT - add attraction
+router.put('/', function(req, res, next){
+    Day.find({
+       where: {
+           number: req.body.dayNumber
+       }
+    })
+    .then(function(foundDay){
+        foundDay.update({
+            hotelId: req.body.hotel
+        });
+    })
+    .catch(next);
+}
+)
 
 // DELETE - remove current day
 router.delete('/', function(req, res, next) {

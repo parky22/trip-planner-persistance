@@ -48,6 +48,7 @@ var tripModule = (function () {
   function addDay () {
     if (this && this.blur) this.blur(); // removes focus box from buttons
     // var newDay = dayModule.create({ number: days.length + 1 }); // dayModule
+    updateCurrentDay();
     $.post('/days', { number: days.length + 1 })
     .then((createdDay) => {
         var newDay = dayModule.create(createdDay);
@@ -77,19 +78,34 @@ var tripModule = (function () {
   }
 
   function load () {
-      $.get('/days')
-      .then(function (foundDays) {
-          if (foundDays) {
-              foundDays.forEach((day) => {
-                  console.log("this is the day", day);
-                  days.push(dayModule.create(day));
-              });
-          } else {
-              // add a day
-          }
-      })
-      .catch(console.error.bind(console));
+    $.get('/days')
+    .then(function (foundDays) {
+        if (foundDays) {
+          console.log(foundDays);
+            foundDays.forEach((day) => {
+              var newDay = dayModule.create(day);
+              var attractionHotel = attractionsModule.getByTypeAndId('hotel', day.hotelId);
+              console.log('new Day', newDay);
+              console.log('attraction hotel', attractionHotel);
+              if(attractionHotel){
+                newDay.addAttraction(attractionHotel);
+              }
+              days.push(newDay);
+            });
+        } else {
+            // add a day
+        }
+    })
+    .catch(console.error.bind(console));
   }
+
+function updateCurrentDay(){
+  $.ajax({
+    type: 'PUT',
+    url: '/days',
+    data: {dayNumber: currentDay.number, hotel: currentDay.hotel.id, restaurants: currentDay.restaurants, activities: currentDay.activities}
+  });
+}
 
   // globally accessible module methods
 
