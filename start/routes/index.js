@@ -6,6 +6,7 @@ var Activity = require('../models/activity');
 var hotelsRouter = require('./api/hotels.js');
 var restaurantsRouter = require('./api/restaurants.js');
 var activitiesRouter = require('./api/activities.js');
+var daysRouter = require('./api/days.js');
 
 
 router.get('/', function(req, res, next) {
@@ -27,6 +28,7 @@ router.get('/', function(req, res, next) {
 router.use('/hotels', hotelsRouter);
 router.use('/restaurants', restaurantsRouter);
 router.use('/activities', activitiesRouter);
+router.use('/days', daysRouter);
 
 
 module.exports = router;

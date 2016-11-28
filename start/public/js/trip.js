@@ -47,12 +47,18 @@ var tripModule = (function () {
 
   function addDay () {
     if (this && this.blur) this.blur(); // removes focus box from buttons
-    var newDay = dayModule.create({ number: days.length + 1 }); // dayModule
-    days.push(newDay);
-    if (days.length === 1) {
-      currentDay = newDay;
-    }
-    switchTo(newDay);
+    // var newDay = dayModule.create({ number: days.length + 1 }); // dayModule
+    $.post('/days', { number: days.length + 1 })
+    .then((createdDay) => {
+        var newDay = dayModule.create(createdDay);
+        days.push(newDay);
+        if (days.length === 1) {
+          currentDay = newDay;
+        }
+        switchTo(newDay);
+    })
+    .catch(console.error.bind(console));
+
   }
 
   function deleteCurrentDay () {
@@ -70,13 +76,26 @@ var tripModule = (function () {
     previousDay.hideButton();
   }
 
+  function load () {
+      $.get('/days')
+      .then(function (foundDays) {
+          if (foundDays) {
+              foundDays.forEach((day) => {
+                  console.log("this is the day", day);
+                  days.push(dayModule.create(day));
+              });
+          } else {
+              // add a day
+          }
+      })
+      .catch(console.error.bind(console));
+  }
+
   // globally accessible module methods
 
   var publicAPI = {
 
-    load: function () {
-      $(addDay);
-    },
+    load: load,
 
     switchTo: switchTo,
 
