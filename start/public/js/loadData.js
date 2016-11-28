@@ -11,15 +11,15 @@ $.ajax({
 .then(function(hotelsAJAX){
   hotels = hotelsAJAX;
   return $.ajax({
-    method: 'GET',
-     url: '/restaurants'
+  method: 'GET',
+  url: '/restaurants'
   });
 })
 .then(function(restaurantsAJAX){
   restaurants = restaurantsAJAX;
   return $.ajax({
     method: 'GET',
-     url: '/activities'
+    url: '/activities'
   });
 })
 .then(function(activitiesAJAX){
